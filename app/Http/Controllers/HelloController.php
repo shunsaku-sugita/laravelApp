@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Http\Requests\HelloRequest;
 use Validator;
+use function foo\func;
 
 class HelloController extends Controller
 {
@@ -29,17 +30,26 @@ class HelloController extends Controller
         $rules = [
             'name' => 'required',
             'mail' => 'email',
-            'age' => 'numeric | between:0, 150',
+            'age' => 'numeric',
         ];
 
         $messages = [
             'name.required' => '名前は必ず入力してください。',
             'mail.email' => 'メールアドレスが必要です。',
             'age.numeric' => '年齢を整数で記入してください。',
-            'age.between' => '年齢は０〜１５０の間で入力してくださ。',
+            'age.min' => '年齢はゼロ歳以上で記入してください。',
+            'age.max' => '年齢は200歳以下で記入してください。',
         ];
 
         $validator = Validator::make($request->all(), $rules, $messages);
+
+        $validator->sometimes('age', 'min:0', function ($input) {
+           return !is_int($input->age);
+        });
+
+        $validator->sometimes('age', 'max:200', function ($input) {
+            return !is_int($input->age);
+        });
 
         // 失敗した場合true
 //        if ($validator->fails()) {
