@@ -44,7 +44,7 @@ class HelloController extends Controller
         $validator = Validator::make($request->all(), $rules, $messages);
 
         $validator->sometimes('age', 'min:0', function ($input) {
-           return !is_int($input->age);
+           return !is_int($input->age); //$input->ageの値が整数の場合はfalseを返し、min:0のルールが追加される
         });
 
         $validator->sometimes('age', 'max:200', function ($input) {
