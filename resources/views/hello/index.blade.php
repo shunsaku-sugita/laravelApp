@@ -46,7 +46,7 @@
 				<td><input type="text" name="age" value="{{ old('age') }}"></td>
 			</tr>
 			<tr>
-				<th>name:</th>
+				<th></th>
 				<td><input type="submit" value="send"></td>
 			</tr>
 		</form>
